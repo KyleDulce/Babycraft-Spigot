@@ -1,0 +1,11 @@
+#DO NOT CHANGE config-version
+config-version: error
+allow-multiplayer-marriage: true
+#choose-baby-gender if enabled allows players to choose the gender of their baby
+choose-baby-gender: false
+allow-same-gender-marriage: true
+#Request-timeout-delay is time in seconds for how long it takes until any request will automatically
+#Be denied if ignored default: 1 min / 60 seconds
+request-timeout-delay: 60
+
+debug-logs: true

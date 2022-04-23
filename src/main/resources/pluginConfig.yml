@@ -1,0 +1,13 @@
+
+config:
+  main:
+    version: 1
+    filename: config.yml
+
+  players:
+    version: 1
+    filename: players.yml
+
+  children:
+    version: 1
+    filename: children.yml
