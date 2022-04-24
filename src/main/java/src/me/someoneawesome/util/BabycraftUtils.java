@@ -14,4 +14,8 @@ public class BabycraftUtils {
             return Optional.empty();
         }
     }
+
+    public static boolean isStringNullOrEmpty(String str) {
+        return str == null || str.isEmpty() || str.isBlank();
+    }
 }
