@@ -27,7 +27,7 @@ public class PluginConfig {
                 .doOnNext(this::setupConfigVariables)
                 .doOnError(throwable -> {
                     LOGGER.error("Failed to load Plugin Proptery file", throwable);
-                    Babycraft.instance.fetalErrorDisable("Failed to load Plugin Property file. Try redownloading the plugin");
+                    Babycraft.instance.fetalErrorDisable("Failed to load Plugin Property file. Try redownloading the plugin", true);
                 })
                 .onErrorStop()
                 .doOnNext(yamlConfiguration -> LOGGER.info("Plugin Properties Loaded"))
