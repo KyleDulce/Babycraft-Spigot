@@ -30,4 +30,8 @@ public class MainConfigurationInterface {
     public boolean getBroadcastMarriageAnnouncement() {
         return manager.getConfigObject(label).getBoolean(ConfigPath.MAIN_BROADCAST_MARRIAGE, true);
     }
+
+    public boolean getDebugLogs() {
+        return manager.getConfigObject(label).getBoolean(ConfigPath.MAIN_DEBUG_LOGS, false);
+    }
 }

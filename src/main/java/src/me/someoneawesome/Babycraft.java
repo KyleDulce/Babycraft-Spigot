@@ -16,6 +16,7 @@ public class Babycraft extends JavaPlugin {
     private final CommandManager commandManager;
 
     private boolean disabled = false;
+    boolean debugMode = false;
 
     public Babycraft() {
         instance = this;
@@ -41,6 +42,7 @@ public class Babycraft extends JavaPlugin {
             return;
         }
         configManager.loadConfigs();
+        debugMode = ConfigInterface.instance.main.getDebugLogs();
 
         getCommand("babycraft").setExecutor(commandManager);
         getCommand("babycraft").setTabCompleter(commandManager);

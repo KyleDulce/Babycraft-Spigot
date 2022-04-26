@@ -13,6 +13,7 @@ public class ConfigPath {
     public static final String MAIN_ALLOW_SAME_GENDER_MARRIAGE = "allow-same-gender-marriage";
     public static final String MAIN_BROADCAST_MARRIAGE = "broadcast-marriage-annoucements";
     public static final String MAIN_REQUEST_TIMEOUT = "request-timeout-delay";
+    public static final String MAIN_DEBUG_LOGS = "debug-logs";
 
     //player
     public static String PLAYER_GENDER(UUID uuid) { return uuid.toString() + ".gender";}

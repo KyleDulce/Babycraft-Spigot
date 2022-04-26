@@ -1,6 +1,8 @@
 package src.me.someoneawesome;
 
-import java.util.logging.Logger;
+import org.bukkit.ChatColor;
+
+import java.util.logging.Level;
 
 public class PluginLogger {
     private final Class<?> logOrigin;
@@ -20,23 +22,25 @@ public class PluginLogger {
     }
 
     public void debug(String message) {
-
+        if(Babycraft.instance.debugMode) {
+            Babycraft.instance.getLogger().log(Level.INFO, ChatColor.DARK_AQUA + message);
+        }
     }
 
     public void info(String message) {
-
+        Babycraft.instance.getLogger().log(Level.INFO, ChatColor.GREEN + message);
     }
 
     public void warn(String message) {
-
+        Babycraft.instance.getLogger().log(Level.WARNING, ChatColor.YELLOW + message);
     }
 
     public void error(String message) {
-
+        Babycraft.instance.getLogger().log(Level.WARNING, ChatColor.RED + message);
     }
 
     public void error(String message, Throwable throwable) {
-
+        Babycraft.instance.getLogger().log(Level.WARNING, ChatColor.RED + message, throwable);
     }
 
     public static PluginLogger getLogger(Class<?> loggerOrigin, String label) {
