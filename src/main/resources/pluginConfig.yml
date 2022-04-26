@@ -11,3 +11,28 @@ config:
   children:
     version: 1
     filename: children.yml
+
+utils:
+  chestplates:
+    - CHAINMAIL_CHESTPLATE
+    - DIAMOND_CHESTPLATE
+    - GOLDEN_CHESTPLATE
+    - IRON_CHESTPLATE
+    - LEATHER_CHESTPLATE
+    - NETHERITE_CHESTPLATE
+
+  leggings:
+    - CHAINMAIL_LEGGINGS
+    - DIAMOND_LEGGINGS
+    - GOLDEN_LEGGINGS
+    - IRON_LEGGINGS
+    - LEATHER_LEGGINGS
+    - NETHERITE_LEGGINGS
+
+  boots:
+    - CHAINMAIL_BOOTS
+    - DIAMOND_BOOTS
+    - GOLDEN_BOOTS
+    - IRON_BOOTS
+    - LEATHER_BOOTS
+    - NETHERITE_BOOTS

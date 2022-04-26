@@ -1,5 +1,6 @@
 package src.me.someoneawesome.config;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import reactor.core.publisher.Flux;
@@ -8,6 +9,7 @@ import src.me.someoneawesome.Babycraft;
 import src.me.someoneawesome.PluginLogger;
 
 import java.io.InputStreamReader;
+import java.util.HashSet;
 import java.util.List;
 
 public class PluginConfig {
@@ -45,18 +47,47 @@ public class PluginConfig {
                 .buffer()
                 .blockLast();
 
-
+        chestplates = getMaterialListFromPath("utils.chestplates", configObj)
+                        .map(HashSet::new)
+                        .blockLast();
+        leggings = getMaterialListFromPath("utils.leggings", configObj)
+                        .map(HashSet::new)
+                        .blockLast();
+        boots = getMaterialListFromPath("utils.boots", configObj)
+                        .map(HashSet::new)
+                        .blockLast();
     }
 
     private List<ConfigType> configTypes;
+    private HashSet<Material> chestplates;
+    private HashSet<Material> leggings;
+    private HashSet<Material> boots;
 
     public List<ConfigType> configTypes() {
         return configTypes;
+    }
+
+    public HashSet<Material> getChestplates() {
+        return chestplates;
+    }
+
+    public HashSet<Material> getLeggings() {
+        return leggings;
+    }
+
+    public HashSet<Material> getBoots() {
+        return boots;
     }
 
     public class ConfigType {
         public byte version;
         public String filename;
         public String label;
+    }
+
+    private Flux<List<Material>> getMaterialListFromPath(String path, FileConfiguration configObj) {
+        return Flux.fromIterable(configObj.getStringList(path))
+                .map(Material::getMaterial)
+                .buffer();
     }
 }
