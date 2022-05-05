@@ -1,5 +1,6 @@
 package src.me.someoneawesome.config.interfaces;
 
+import org.bukkit.entity.Player;
 import src.me.someoneawesome.config.ConfigManager;
 import src.me.someoneawesome.config.ConfigPath;
 import src.me.someoneawesome.model.Gender;
@@ -51,5 +52,9 @@ public class PlayersConfigInterface {
             result.add(UUID.fromString(p));
         }
         return result;
+    }
+
+    public boolean contains(UUID uuid) {
+        return manager.getConfigObject(label).contains(ConfigPath.PLAYER_ROOT(uuid));
     }
 }

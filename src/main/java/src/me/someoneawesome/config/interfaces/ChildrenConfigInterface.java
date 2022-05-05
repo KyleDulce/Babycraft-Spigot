@@ -54,4 +54,8 @@ public class ChildrenConfigInterface {
         return Villager.Profession.valueOf(manager.getConfigObject(label).getString(ConfigPath.CHILD_COLOR(uuid),
                 Profession.LIBRARIAN.toString()));
     }
+
+    public boolean contains(UUID uuid) {
+        return manager.getConfigObject(label).contains(ConfigPath.CHILD_ROOT(uuid));
+    }
 }

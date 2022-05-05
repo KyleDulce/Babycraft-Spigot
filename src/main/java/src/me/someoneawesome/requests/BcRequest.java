@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public abstract class BcRequest {
-    private static HashMap<UUID, BcRequest> activeRequests = new HashMap<>();
+    private static final HashMap<UUID, BcRequest> activeRequests = new HashMap<>();
 
     private static void registerRequest(UUID p1, UUID p2, BcRequest req) {
         activeRequests.put(p1, req);
@@ -21,10 +21,6 @@ public abstract class BcRequest {
     private static void removeRequest(BcRequest req) {
         activeRequests.remove(req.requester);
         activeRequests.remove(req.receiver);
-    }
-
-    private static void removeRequest(UUID p) {
-        removeRequest(activeRequests.get(p));
     }
 
     public static BcRequest getRequest(UUID p) {
@@ -106,6 +102,7 @@ public abstract class BcRequest {
 
         requestMessage.sendMessage(playerReceiver);
         confirmationMessage.sendMessage(playerRequester);
+        registerRequest(requester, receiver, this);
     }
 
     public boolean accept(UUID user) {

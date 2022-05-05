@@ -218,6 +218,10 @@ public class ConfigObject {
         return fileConfig.getStringList(path);
     }
 
+    public boolean contains(String path) {
+        return fileConfig.contains(path);
+    }
+
     public PluginConfig.ConfigType getConfigProps() {
         return configProps;
     }

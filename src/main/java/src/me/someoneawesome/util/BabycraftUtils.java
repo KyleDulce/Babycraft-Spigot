@@ -1,6 +1,8 @@
 package src.me.someoneawesome.util;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import src.me.someoneawesome.Babycraft;
@@ -10,6 +12,7 @@ import java.io.InputStream;
 import java.util.*;
 
 public class BabycraftUtils {
+
     public static Optional<InputStream> getResourceAsOptional(String filename) {
         InputStream stream = Babycraft.instance.getResource(filename);
         if(stream != null) {
@@ -24,9 +27,14 @@ public class BabycraftUtils {
     }
 
     public static <T> T[] removeFirstItemFromArray(T[] array) {
+        if(array == null || array.length == 0) {
+            return null;
+        }
         LinkedList<T> list = new LinkedList<>(Arrays.asList(array));
         list.removeFirst();
-        return (T[]) list.toArray();
+        T[] resultArray = (T[]) java.lang.reflect.Array.newInstance(list.get(0)
+                .getClass(), list.size());
+        return list.toArray(resultArray);
     }
 
     public static ItemStack createItemStack(Material material, int amount, String name, String lore) {

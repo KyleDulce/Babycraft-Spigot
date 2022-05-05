@@ -3,6 +3,7 @@ package src.me.someoneawesome.model.inventorymenu;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -19,12 +20,32 @@ public class InventoryMenu {
 
     private static final HashMap<UUID, InventoryMenu> openMenus = new HashMap<>();
 
-    public static Optional<InventoryMenu> getMenuFromPlayer(UUID playeruid) {
-        if(openMenus.containsKey(playeruid)) {
-            return Optional.of(openMenus.get(playeruid));
-        } else {
-            return Optional.empty();
+    public static void onInventoryEvent(InventoryClickEvent event) {
+        Player player = (Player) event.getWhoClicked();
+        if(!openMenus.containsKey(player.getUniqueId())) {
+            return;
         }
+
+        InventoryMenu menu = openMenus.get(player.getUniqueId());
+        if(!event.getInventory().equals(menu.inventory)) {
+            return;
+        }
+
+        menu.onEvent(event);
+    }
+
+    public static void onInventoryEvent(InventoryCloseEvent event) {
+        Player player = (Player) event.getPlayer();
+        if(!openMenus.containsKey(player.getUniqueId())) {
+            return;
+        }
+
+        InventoryMenu menu = openMenus.get(player.getUniqueId());
+        if(!event.getInventory().equals(menu.inventory)) {
+            return;
+        }
+
+        menu.onCloseEvent();
     }
 
     HashMap<Integer, MenuComponent> menuOptions;
@@ -54,14 +75,14 @@ public class InventoryMenu {
         openMenus.remove(player.getUniqueId());
     }
 
-    public void onEvent(InventoryClickEvent event) {
+    private void onEvent(InventoryClickEvent event) {
         int slot = event.getSlot();
         if(menuOptions.containsKey(slot)) {
             menuOptions.get(slot).onComponentSelect(event, this);
         }
     }
 
-    public void onCloseEvent() {
+    private void onCloseEvent() {
         if(!refreshing && closeEvent != null) {
             closeEvent.run();
         }
@@ -211,6 +232,8 @@ public class InventoryMenu {
         protected ItemStack itemStack = null;
         protected String label = null;
         protected String value = null;
+        protected String menuTitle = null;
+        protected TextMenu menu = null;
         @Override
         public void validate() {
             if(itemStack == null) {
@@ -227,6 +250,10 @@ public class InventoryMenu {
         @Override
         public void onComponentSelect(InventoryClickEvent event, InventoryMenu instance) {
             //open text field select
+            menu = TextMenu.openTextMenu(instance.player, menuTitle, value, outValue -> {
+                value = outValue;
+                instance.refresh();
+            }, instance::refresh);
         }
     }
 }

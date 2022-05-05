@@ -16,6 +16,7 @@ public class ConfigPath {
     public static final String MAIN_DEBUG_LOGS = "debug-logs";
 
     //player
+    public static String PLAYER_ROOT(UUID uuid) { return uuid.toString();}
     public static String PLAYER_GENDER(UUID uuid) { return uuid.toString() + ".gender";}
     public static String PLAYER_PARTNER(UUID uuid) { return uuid.toString() + ".partner";}
     public static String PLAYER_PREGNANT_STATUS(UUID uuid) { return uuid.toString() + ".pregnant.status";}
@@ -24,6 +25,7 @@ public class ConfigPath {
     public static String PLAYER_CHILDREN(UUID uuid) { return uuid.toString() + ".children";}
 
     //children
+    public static String CHILD_ROOT(UUID uuid) { return uuid.toString();}
     public static String CHILD_NAME(UUID uuid) { return uuid.toString() + ".name";}
     public static String CHILD_PARENTS(UUID uuid) { return uuid.toString() + ".parents";}
     public static String CHILD_GENDER(UUID uuid) { return uuid.toString() + ".gender";}

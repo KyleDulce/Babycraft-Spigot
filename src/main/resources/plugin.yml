@@ -1,10 +1,10 @@
 main: me.someoneawesome.babycraft.Babycraft
 name: Babycraft
-version: pre-release-2.0
+version: 0.0.1-SNAPSHOT
 description: Have children in minecraft
 author: Someoneawesome78
 prefix: Babycraft
-api-version: 1.16
+api-version: 1.18
 commands:
   babycraft:
     description: Base Commands
