@@ -2,6 +2,7 @@ package src.me.someoneawesome.config.interfaces;
 
 import src.me.someoneawesome.config.ConfigManager;
 import src.me.someoneawesome.config.ConfigPath;
+import src.me.someoneawesome.model.Gender;
 
 public class MainConfigurationInterface {
     private final String label = "main";
@@ -33,5 +34,21 @@ public class MainConfigurationInterface {
 
     public boolean getDebugLogs() {
         return manager.getConfigObject(label).getBoolean(ConfigPath.MAIN_DEBUG_LOGS, false);
+    }
+
+    public String getMaleCallme() {
+        return manager.getConfigObject(label).getString(ConfigPath.MAIN_DEFAULT_CALLME_MALE, Gender.MALE.getParentCallme());
+    }
+
+    public String getFemaleCallme() {
+        return manager.getConfigObject(label).getString(ConfigPath.MAIN_DEFAULT_CALLME_FEMALE, Gender.FEMALE.getParentCallme());
+    }
+
+    public String getOtherCallme() {
+        return manager.getConfigObject(label).getString(ConfigPath.MAIN_DEFAULT_CALLME_OTHER, Gender.OTHER.getParentCallme());
+    }
+
+    public String getNoneCallme() {
+        return manager.getConfigObject(label).getString(ConfigPath.MAIN_DEFAULT_CALLME_NONE, Gender.NULL.getParentCallme());
     }
 }

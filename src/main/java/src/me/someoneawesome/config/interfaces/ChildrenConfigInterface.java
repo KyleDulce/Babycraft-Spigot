@@ -3,7 +3,10 @@ package src.me.someoneawesome.config.interfaces;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Villager;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import src.me.someoneawesome.config.ConfigManager;
 import src.me.someoneawesome.config.ConfigPath;
 import src.me.someoneawesome.model.Gender;
@@ -55,7 +58,67 @@ public class ChildrenConfigInterface {
                 Profession.LIBRARIAN.toString()));
     }
 
+    public ItemStack[] getChildArmor(UUID uuid) {
+        ItemStack[] armor = new ItemStack[4];
+        armor[0] = manager.getConfigObject(label).getItemStack(ConfigPath.CHILD_ARMOR_HEAD(uuid));
+        armor[1] = manager.getConfigObject(label).getItemStack(ConfigPath.CHILD_ARMOR_BODY(uuid));
+        armor[2] = manager.getConfigObject(label).getItemStack(ConfigPath.CHILD_ARMOR_LEGS(uuid));
+        armor[3] = manager.getConfigObject(label).getItemStack(ConfigPath.CHILD_ARMOR_FEET(uuid));
+        return armor;
+    }
+
     public boolean contains(UUID uuid) {
         return manager.getConfigObject(label).contains(ConfigPath.CHILD_ROOT(uuid));
+    }
+
+    public void setChildName(UUID uuid, String name) {
+        manager.getConfigObject(label).set(ConfigPath.CHILD_NAME(uuid), name);
+    }
+
+    public void setChildParents(UUID uuid, List<UUID> parents) {
+        List<String> result = new ArrayList<>();
+        for(UUID uid: parents) {
+            result.add(uid.toString());
+        }
+        manager.getConfigObject(label).set(ConfigPath.CHILD_PARENTS(uuid), result);
+    }
+
+    public void setChildGender(UUID uuid, Gender gender) {
+        manager.getConfigObject(label).set(ConfigPath.PLAYER_GENDER(uuid), gender.toString());
+    }
+
+    public void setChildHome(UUID uuid, Location location) {
+        manager.getConfigObject(label).set(ConfigPath.CHILD_HOME_WORLD(uuid), location.getWorld().getUID().toString());
+        manager.getConfigObject(label).set(ConfigPath.CHILD_HOME_X(uuid), location.getX());
+        manager.getConfigObject(label).set(ConfigPath.CHILD_HOME_Y(uuid), location.getY());
+        manager.getConfigObject(label).set(ConfigPath.CHILD_HOME_Z(uuid), location.getZ());
+    }
+
+    public void setChildColor(UUID uuid, Profession profession) {
+        manager.getConfigObject(label).set(ConfigPath.CHILD_COLOR(uuid), profession.toString());
+    }
+
+    public void setChildArmor(UUID uuid, ItemStack[] armor) {
+        manager.getConfigObject(label).set(ConfigPath.CHILD_ARMOR_HEAD(uuid), armor[0]);
+        manager.getConfigObject(label).set(ConfigPath.CHILD_ARMOR_BODY(uuid), armor[1]);
+        manager.getConfigObject(label).set(ConfigPath.CHILD_ARMOR_LEGS(uuid), armor[2]);
+        manager.getConfigObject(label).set(ConfigPath.CHILD_ARMOR_FEET(uuid), armor[3]);
+    }
+
+    public void setChildArmor(UUID uuid, EquipmentSlot slot, ItemStack item) {
+        switch (slot) {
+            case HEAD ->
+                    manager.getConfigObject(label).set(ConfigPath.CHILD_ARMOR_HEAD(uuid), item);
+            case CHEST ->
+                    manager.getConfigObject(label).set(ConfigPath.CHILD_ARMOR_BODY(uuid), item);
+            case LEGS ->
+                    manager.getConfigObject(label).set(ConfigPath.CHILD_ARMOR_LEGS(uuid), item);
+            case FEET ->
+                    manager.getConfigObject(label).set(ConfigPath.CHILD_ARMOR_FEET(uuid), item);
+        }
+    }
+
+    public void removeChild(UUID uuid) {
+        manager.getConfigObject(label).set(ConfigPath.CHILD_ROOT(uuid), null);
     }
 }

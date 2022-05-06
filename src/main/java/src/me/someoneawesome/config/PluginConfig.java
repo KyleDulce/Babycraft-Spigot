@@ -56,12 +56,14 @@ public class PluginConfig {
         boots = getMaterialListFromPath("utils.boots", configObj)
                         .map(HashSet::new)
                         .blockLast();
+        speakingRadius = configObj.getInt("children.speakingRadius");
     }
 
     private List<ConfigType> configTypes;
     private HashSet<Material> chestplates;
     private HashSet<Material> leggings;
     private HashSet<Material> boots;
+    private int speakingRadius;
 
     public List<ConfigType> configTypes() {
         return configTypes;
@@ -77,6 +79,10 @@ public class PluginConfig {
 
     public HashSet<Material> getBoots() {
         return boots;
+    }
+
+    public int getSpeakingRadius() {
+        return speakingRadius;
     }
 
     public class ConfigType {

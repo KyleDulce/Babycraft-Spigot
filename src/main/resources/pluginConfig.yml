@@ -36,3 +36,6 @@ utils:
     - IRON_BOOTS
     - LEATHER_BOOTS
     - NETHERITE_BOOTS
+
+children:
+  speakingRadius: 15

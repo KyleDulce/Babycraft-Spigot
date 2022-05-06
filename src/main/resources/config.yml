@@ -8,4 +8,11 @@ allow-same-gender-marriage: true
 #Be denied if ignored default: 1 min / 60 seconds
 request-timeout-delay: 60
 
+defaults:
+  callmes:
+    male: Dad
+    female: Mom
+    other: Parent
+    none: ???
+
 debug-logs: true

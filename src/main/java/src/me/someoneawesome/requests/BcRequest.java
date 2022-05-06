@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import src.me.someoneawesome.Babycraft;
 import src.me.someoneawesome.config.ConfigInterface;
-import src.me.someoneawesome.model.FormattedMessage;
+import src.me.someoneawesome.model.messaging.FormattedMessage;
 
 import java.util.HashMap;
 import java.util.UUID;

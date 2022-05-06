@@ -1,4 +1,4 @@
-package src.me.someoneawesome.model;
+package src.me.someoneawesome.model.messaging;
 
 import org.bukkit.ChatColor;
 

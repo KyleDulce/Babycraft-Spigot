@@ -1,8 +1,9 @@
-package src.me.someoneawesome.model;
+package src.me.someoneawesome.model.messaging;
 
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -40,6 +41,10 @@ public class FormattedMessage {
 
     public void sendMessageActionBar(Player p) {
         p.spigot().sendMessage(textComponents);
+    }
+
+    public void broadcastMessage() {
+        Bukkit.spigot().broadcast(textComponents);
     }
 
     public static class FormattedMessageBuilder {

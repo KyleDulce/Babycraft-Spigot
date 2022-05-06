@@ -1,7 +1,7 @@
 package src.me.someoneawesome.commands;
 
 import org.bukkit.command.CommandSender;
-import src.me.someoneawesome.model.BasicMessageBuilder;
+import src.me.someoneawesome.model.messaging.BasicMessageBuilder;
 import src.me.someoneawesome.util.BabycraftUtils;
 
 import java.util.*;
