@@ -39,3 +39,26 @@ utils:
 
 children:
   speakingRadius: 15
+  despawnAllKeyword: 'all'
+  boyNames:
+    - Noah
+    - Liam
+    - William
+    - Mason
+    - James
+    - Benjamin
+    - Jacob
+    - Michael
+    - Elijah
+    - Ethan
+  girlNames:
+    - Emma
+    - Olivia
+    - Ava
+    - Sophia
+    - Isabella
+    - Mia
+    - Charlotte
+    - Abigail
+    - Emily
+    - Harper

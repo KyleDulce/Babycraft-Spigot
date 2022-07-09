@@ -1,10 +1,10 @@
-package src.me.someoneawesome.permissions;
+package src.me.someoneawesome.model.permissions;
 
 public enum BcPermission {
 
     BABYCRAFT_SOLO("babyCraft.solo"),
+    BABYCRAFT_CHILDREN("babyCraft.children"),
     BABYCRAFT_SAME_GENDER("babyCraft.sameGender"),
-    BABYCRAFT_CHANGE_GENDER("babyCraft.changeGender"),
     BABYCRAFT_SAME_GENDER_MARRIAGE("babyCraft.sameGenderMarriage"),
     BABYCRAFT_MULTI_MARRIAGE("babyCraft.multimarriage"),
 

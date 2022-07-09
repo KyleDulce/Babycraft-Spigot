@@ -1,6 +1,7 @@
 package src.me.someoneawesome.util;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -27,7 +28,10 @@ public class BabycraftUtils {
     }
 
     public static <T> T[] removeFirstItemFromArray(T[] array) {
-        if(array == null || array.length == 0) {
+        if(array == null) {
+            return null;
+        }
+        if(array.length == 0) {
             return null;
         }
         LinkedList<T> list = new LinkedList<>(Arrays.asList(array));
@@ -59,6 +63,22 @@ public class BabycraftUtils {
         return createItemStack(material, amount, name, null);
     }
 
+    public static ItemStack createItemStackColored(Material material, int amount, String name, ChatColor color, String lore) {
+        return createItemStack(material, amount, color + name, lore);
+    }
+
+    public static ItemStack createItemStackColored(Material material, int amount, String name, ChatColor color) {
+        return createItemStackColored(material, amount, name, color, null);
+    }
+
+    public static ItemStack createItemStackColored(Material material, String name, ChatColor color, String lore) {
+        return createItemStack(material, 1, color + name, lore);
+    }
+
+    public static ItemStack createItemStackColored(Material material, String name, ChatColor color) {
+        return createItemStackColored(material, 1, name, color, null);
+    }
+
     public static ItemStack createItemStack(Material material, int amount) {
         return createItemStack(material, amount, null, null);
     }
@@ -73,5 +93,13 @@ public class BabycraftUtils {
 
     public static boolean materialIsBoots(Material mat) {
         return PluginConfig.instance.getBoots().contains(mat);
+    }
+
+    public static <T> T getRandomElementFromArray(T... elem) {
+        return elem[new Random().nextInt(elem.length)];
+    }
+
+    public static <T> T getRandomElementFromArray(List<T> elem) {
+        return (T) getRandomElementFromArray(elem.toArray());
     }
 }

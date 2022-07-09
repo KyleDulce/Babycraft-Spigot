@@ -1,4 +1,4 @@
-package src.me.someoneawesome.model.child;
+package src.me.someoneawesome.model.requests.child;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,15 +11,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import src.me.someoneawesome.Babycraft;
+import src.me.someoneawesome.PluginLogger;
 import src.me.someoneawesome.config.ConfigInterface;
-import src.me.someoneawesome.config.PluginConfig;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class ChildEntity {
+    static HashMap<UUID, UUID> mobIdToChildId = new HashMap<>();
+    static PluginLogger LOGGER = PluginLogger.getLogger(ChildEntity.class);
+
     private Child child;
     private ItemStack[] armor;
     private Location home;
@@ -67,6 +67,8 @@ public class ChildEntity {
         if(armor[3] != null && !(armor[3].getType().equals(Material.AIR))) {
             mob.getEquipment().setBoots(armor[3]);
         }
+
+        mobIdToChildId.put(mobID, child.getUuid());
     }
 
     public void teleportHome() {
@@ -78,6 +80,7 @@ public class ChildEntity {
     }
 
     public void despawn() {
+        LOGGER.info(String.format("Despawning child id: '%s' mob id: '%s'", child.getUuid(), mobID));
         refreshMob();
         Location originalLocation = mob.getLocation();
         originalLocation.getChunk().load();
@@ -91,6 +94,8 @@ public class ChildEntity {
         mob.setHealth(0);
         Child.removeFromRecord(child.getUuid());
         originalLocation.getChunk().unload(true);
+
+        mobIdToChildId.remove(mobID);
     }
 
     public void follow(Player player) {
@@ -111,22 +116,26 @@ public class ChildEntity {
         ReactionCreator.sendMessage(ActionMessage.FOLLOW, child, player);
     }
 
-    private void stopFollow(Player player) {
+    public void stay(Player player) {
         stopFollowManual();
+        setAiState(false);
         ReactionCreator.sendMessage(ActionMessage.STAY, child, player);
     }
 
-    private void roam(Player player) {
+    public void roam(Player player) {
         stopFollowManual();
+        setAiState(true);
         ReactionCreator.sendMessage(ActionMessage.ROAM, child, player);
     }
 
     private void stopFollowManual() {
-        Bukkit.getScheduler().cancelTask(followTaskId);
-        followTaskId = -1;
-        refreshMob();
-        mob.getTarget();
-        mob.setTarget(null);
+        if(followTaskId > 0) {
+            Bukkit.getScheduler().cancelTask(followTaskId);
+            followTaskId = -1;
+            refreshMob();
+            mob.getTarget();
+            mob.setTarget(null);
+        }
     }
 
     private void setAiState(boolean state) {
@@ -190,6 +199,10 @@ public class ChildEntity {
     List<Entity> getNearbyEntities(double radius) {
         refreshMob();
         return mob.getNearbyEntities(radius, radius, radius);
+    }
+
+    public ItemStack[] getArmor() {
+        return armor;
     }
 
     private void refreshMob() {

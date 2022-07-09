@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -46,6 +47,26 @@ public class InventoryMenu {
         }
 
         menu.onCloseEvent();
+    }
+
+    public static void onPlayerQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        if(!openMenus.containsKey(player.getUniqueId())) {
+            return;
+        }
+
+        openMenus.remove(player.getUniqueId());
+    }
+
+    public static Optional<InventoryMenu> getMenuForPlayer(Player player) {
+        if(!openMenus.containsKey(player.getUniqueId())) {
+            return Optional.empty();
+        }
+        return Optional.of(openMenus.get(player.getUniqueId()));
+    }
+
+    public static InventoryMenuBuilder builder() {
+        return new InventoryMenuBuilder();
     }
 
     HashMap<Integer, MenuComponent> menuOptions;
@@ -230,7 +251,6 @@ public class InventoryMenu {
     static class MenuField implements MenuComponent {
         protected Consumer<String> callback = null;
         protected ItemStack itemStack = null;
-        protected String label = null;
         protected String value = null;
         protected String menuTitle = null;
         protected TextMenu menu = null;

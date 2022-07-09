@@ -8,7 +8,7 @@ import src.me.someoneawesome.model.requests.BcRequest;
 
 import java.util.List;
 
-public class CommandDeny implements BabycraftCommand {
+public class CommandCancel implements BabycraftCommand {
     @Override
     public void onCommand(CommandSender sender, String[] commandArguments) {
         if(!(sender instanceof Player)) {
@@ -17,10 +17,10 @@ public class CommandDeny implements BabycraftCommand {
         }
 
         Player player = (Player) sender;
-        boolean result = BcRequest.denyRequest(player.getUniqueId());
+        boolean result = BcRequest.cancelRequest(player.getUniqueId());
 
         if(!result) {
-            sender.sendMessage(ChatColor.RED + "You have no active requests you can deny");
+            sender.sendMessage(ChatColor.RED + "You have no active requests you can cancel");
         }
     }
 
@@ -36,11 +36,11 @@ public class CommandDeny implements BabycraftCommand {
 
     @Override
     public String[] getUsage() {
-        return new String[] {"babycraft deny"};
+        return new String[] {"babycraft cancel"};
     }
 
     @Override
     public String getName() {
-        return "deny";
+        return "cancel";
     }
 }

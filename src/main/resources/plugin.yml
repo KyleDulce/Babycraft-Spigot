@@ -20,7 +20,7 @@ permissions:
     children:
       babyCraft.solo: true
       babyCraft.sameGender: true
-      babyCraft.changeGender: true
+      babyCraft.children: true
     description: gives ALL basic babycraft permissions
     default: true
 
@@ -54,11 +54,11 @@ permissions:
   babyCraft.solo:
     description: allows the player to have children on his/her own, note babyCraft.children must be given
 
+  babyCraft.children:
+    description: allows the player to have children
+
   babyCraft.sameGender:
     description: allows player to have children with player of same gender, note both players must have the permission
-
-  babyCraft.changeGender:
-    description: allows the player to change the Gender of their child on birth
 
   babycraft.sameGenderMarriage:
     description: allows players to marry with the same gender'

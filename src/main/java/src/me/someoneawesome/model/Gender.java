@@ -11,12 +11,15 @@ public enum Gender {
             "her", "girlfriend",
             "Mom", "Ms"),
 
-    OTHER("other", "&f",
+    OTHER("other", "&e",
             "person", "they",
             "them", "date",
             "Person", "person"),
 
-    NULL("person", "&f", "person", "they", "them", "date", "???", "person");
+    NULL("person", "&f",
+            "person", "they",
+            "them", "date",
+            "???", "person");
 
     private final String label;
     private final String codedChatColor;

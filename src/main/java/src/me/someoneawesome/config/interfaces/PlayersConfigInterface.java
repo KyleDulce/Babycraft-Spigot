@@ -7,6 +7,7 @@ import src.me.someoneawesome.config.ConfigPath;
 import src.me.someoneawesome.model.Gender;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -152,5 +153,16 @@ public class PlayersConfigInterface {
             children.remove(child);
             setPlayerPartners(uuid, children);
         }
+    }
+
+    public boolean doesPlayerHaveChildWithName(UUID uuid, String name) {
+        name = name.toLowerCase();
+        List<UUID> childrenList = getPlayerChildren(uuid);
+        for(UUID childUid : childrenList) {
+            if(ConfigInterface.instance.children.getChildName(childUid).equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

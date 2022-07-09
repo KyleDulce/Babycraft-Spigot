@@ -11,9 +11,7 @@ import src.me.someoneawesome.config.ConfigManager;
 import src.me.someoneawesome.config.ConfigPath;
 import src.me.someoneawesome.model.Gender;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.bukkit.entity.Villager.Profession;
 
@@ -72,7 +70,7 @@ public class ChildrenConfigInterface {
     }
 
     public void setChildName(UUID uuid, String name) {
-        manager.getConfigObject(label).set(ConfigPath.CHILD_NAME(uuid), name);
+        manager.getConfigObject(label).set(ConfigPath.CHILD_NAME(uuid), name.toLowerCase());
     }
 
     public void setChildParents(UUID uuid, List<UUID> parents) {
@@ -120,5 +118,21 @@ public class ChildrenConfigInterface {
 
     public void removeChild(UUID uuid) {
         manager.getConfigObject(label).set(ConfigPath.CHILD_ROOT(uuid), null);
+    }
+
+    public HashMap<String, UUID> childUIDListToNameUidMap(List<UUID> childUids) {
+        HashMap<String, UUID> names = new HashMap<>();
+        for(UUID uid : childUids) {
+            names.put(getChildName(uid), uid);
+        }
+        return names;
+    }
+
+    public HashMap<UUID, String> childUIDListToUidNameMap(List<UUID> childUids) {
+        HashMap<UUID, String> names = new HashMap<>();
+        for(UUID uid : childUids) {
+            names.put(uid, getChildName(uid));
+        }
+        return names;
     }
 }

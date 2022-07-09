@@ -1,9 +1,11 @@
-package src.me.someoneawesome.requests;
+package src.me.someoneawesome.model.requests;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerQuitEvent;
 import src.me.someoneawesome.Babycraft;
+import src.me.someoneawesome.PluginLogger;
 import src.me.someoneawesome.config.ConfigInterface;
 import src.me.someoneawesome.model.messaging.FormattedMessage;
 
@@ -12,6 +14,7 @@ import java.util.UUID;
 
 public abstract class BcRequest {
     private static final HashMap<UUID, BcRequest> activeRequests = new HashMap<>();
+    private static final PluginLogger LOGGER = PluginLogger.getLogger(BcRequest.class);
 
     private static void registerRequest(UUID p1, UUID p2, BcRequest req) {
         activeRequests.put(p1, req);
@@ -23,12 +26,36 @@ public abstract class BcRequest {
         activeRequests.remove(req.receiver);
     }
 
-    public static BcRequest getRequest(UUID p) {
-        return activeRequests.get(p);
+    public static boolean acceptRequest(UUID user) {
+        if(activeRequests.containsKey(user)) {
+            return activeRequests.get(user).accept(user);
+        }
+        return false;
     }
 
-    public static boolean requestContains(UUID p) {
-        return activeRequests.containsKey(p);
+    public static boolean playerHasActiveRequest(UUID user) {
+        return activeRequests.containsKey(user);
+    }
+
+    public static boolean denyRequest(UUID user) {
+        if(activeRequests.containsKey(user)) {
+            return activeRequests.get(user).deny(user);
+        }
+        return false;
+    }
+
+    public static boolean cancelRequest(UUID user) {
+        if(activeRequests.containsKey(user)) {
+            return activeRequests.get(user).cancel(user);
+        }
+        return false;
+    }
+
+    public static void onPlayerQuit(PlayerQuitEvent event) {
+        UUID user = event.getPlayer().getUniqueId();
+        if(activeRequests.containsKey(user)) {
+            activeRequests.remove(user);
+        }
     }
 
     protected UUID requester;
@@ -40,21 +67,20 @@ public abstract class BcRequest {
         this.receiver = receiver;
     }
 
-    protected void sendRequest(FormattedMessage.FormattedTextComponent requestText,
-                               String acceptCommand,
-                               String denyCommand,
-                               String cancelCommand) {
+    protected abstract FormattedMessage.FormattedTextComponent getRequestText(Player requester);
+
+    public void sendRequest() {
         Player playerRequester = Bukkit.getPlayer(requester);
         Player playerReceiver = Bukkit.getPlayer(receiver);
 
         FormattedMessage requestMessage = FormattedMessage.builder()
-                .appendMessage(requestText)
+                .appendMessage(getRequestText(playerRequester))
                 .appendMessage(
                         FormattedMessage.FormattedTextComponent.builder()
                                 .setContent(" [ACCEPT] ")
                                 .setColor(ChatColor.GREEN)
                                 .setBold()
-                                .setClickEvent_runCommand(acceptCommand)
+                                .setClickEvent_runCommand("babycraft accept")
                                 .setHoverEvent(
                                         FormattedMessage.buildBasicMessage(
                                                 "Click to accept request", ChatColor.GOLD
@@ -64,7 +90,7 @@ public abstract class BcRequest {
                         .setContent(" [DENY] ")
                         .setColor(ChatColor.RED)
                         .setBold()
-                        .setClickEvent_runCommand(denyCommand)
+                        .setClickEvent_runCommand("babycraft deny")
                         .setHoverEvent(
                                 FormattedMessage.buildBasicMessage(
                                         "Click to deny request", ChatColor.GOLD
@@ -84,7 +110,7 @@ public abstract class BcRequest {
                                 .setContent(" [CANCEL]")
                                 .setColor(ChatColor.GOLD)
                                 .setBold()
-                                .setClickEvent_runCommand(cancelCommand)
+                                .setClickEvent_runCommand("babycraft cancel")
                                 .setHoverEvent(
                                         FormattedMessage.buildBasicMessage(
                                         "Click to cancel request", ChatColor.GOLD
@@ -103,9 +129,10 @@ public abstract class BcRequest {
         requestMessage.sendMessage(playerReceiver);
         confirmationMessage.sendMessage(playerRequester);
         registerRequest(requester, receiver, this);
+        LOGGER.debug("Registered request between " + requester + " and " + receiver);
     }
 
-    public boolean accept(UUID user) {
+    private boolean accept(UUID user) {
         if(receiver.equals(user)) {
             cancelTask();
             removeRequest(this);
@@ -123,7 +150,7 @@ public abstract class BcRequest {
         }
     }
 
-    public boolean deny(UUID user) {
+    private boolean deny(UUID user) {
         if(receiver.equals(user)) {
             cancelTask();
             removeRequest(this);
@@ -139,7 +166,7 @@ public abstract class BcRequest {
         }
     }
 
-    public boolean cancel(UUID user) {
+    private boolean cancel(UUID user) {
         if(requester.equals(user)) {
             cancelTask();
             removeRequest(this);
@@ -161,6 +188,7 @@ public abstract class BcRequest {
         Player preciever = Bukkit.getPlayer(receiver);
         prequester.sendMessage(ChatColor.RED + "your request timed out");
         preciever.sendMessage(ChatColor.GREEN + "the request timed out");
+        LOGGER.info("Request between " + requester + " and " + receiver + " timed out");
     }
 
     public abstract void commit();

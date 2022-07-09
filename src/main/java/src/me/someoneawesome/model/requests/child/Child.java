@@ -1,11 +1,17 @@
-package src.me.someoneawesome.model.child;
+package src.me.someoneawesome.model.requests.child;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import reactor.core.publisher.Flux;
 import src.me.someoneawesome.config.ConfigInterface;
 import src.me.someoneawesome.config.PluginConfig;
 import src.me.someoneawesome.config.interfaces.ChildrenConfigInterface;
@@ -99,9 +105,9 @@ public class Child {
                         .build()
                 ).build()
                 .broadcastMessage();
-        for(UUID child : childUIDToChild.keySet()) {
-            childUIDToChild.get(child).childEntity.despawn();
-        }
+        Flux.fromIterable(childUIDToChild.values())
+                .doOnNext(child -> child.childEntity.despawn())
+                .subscribe();
     }
 
     public static Child spawnChildFromConfig(UUID uuid, Location spawnLocation) {
@@ -128,9 +134,11 @@ public class Child {
         configInterface.setChildHome(uuid, defaultHome);
         configInterface.setChildColor(uuid, Villager.Profession.LIBRARIAN);
 
-        for(UUID parent : parents) {
-            ConfigInterface.instance.players.addPlayerChild(parent, uuid);
-        }
+        Flux.fromIterable(parents)
+                .doOnNext(parent -> ConfigInterface.instance
+                        .players
+                        .addPlayerChild(parent, uuid))
+                .subscribe();
     }
 
     public static void removeChild(UUID uuid) {
@@ -139,11 +147,62 @@ public class Child {
             return;
         }
 
-        List<UUID> parents = configInterface.getChildParents(uuid);
-        for(UUID parent : parents) {
-            ConfigInterface.instance.players.removePlayerChildren(parent, uuid);
+        Flux.just(uuid)
+                .flatMap(childUid -> Flux.fromIterable(configInterface.getChildParents(childUid)))
+                .doOnNext(parentUid -> ConfigInterface.instance.players.removePlayerChildren(parentUid, uuid))
+                .doOnComplete(() -> configInterface.removeChild(uuid))
+                .subscribe();
+    }
+
+    public static void handlePlayerInteract(PlayerInteractEntityEvent event) {
+        Entity clicked = event.getRightClicked();
+
+        if(EntityType.VILLAGER.equals(clicked.getType())) {
+            if(ChildEntity.mobIdToChildId.containsKey(clicked.getUniqueId())) {
+                Child child = Child.childUIDToChild.get(ChildEntity.mobIdToChildId.get(clicked.getUniqueId()));
+                Player player = event.getPlayer();
+                if(child.isParent(player)) {
+                    ChildMenu.openChildMenu(player, child);
+                } else {
+                    player.sendMessage(ChatColor.RED + "The child does not want you to access their menu");
+                }
+            }
+        }
+    }
+
+    public static void handlePlayerQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        Flux.fromIterable(childUIDToChild.values())
+                .filter(child -> !child.isParent(player))
+                .filter(child -> {
+                    UUID parent2 = child.getOtherParent(player);
+                    return parent2 != null && Bukkit.getOfflinePlayer(parent2).isOnline();
+                })
+                .doOnNext(child -> child.childEntity.despawn())
+                .subscribe();
+    }
+
+    public static void handlePlayerAttack(EntityDamageByEntityEvent event) {
+        Entity damager = event.getDamager();
+        Entity damaged = event.getEntity();
+
+        if(!(damager instanceof Player)) {
+            return;
         }
 
-        configInterface.removeChild(uuid);
+        if(!(damaged instanceof Villager)) {
+            return;
+        }
+
+        Player player = (Player) damager;
+        Villager villager = (Villager) damaged;
+
+        if(!ChildEntity.mobIdToChildId.containsKey(villager.getUniqueId())) {
+            return;
+        }
+
+        ReactionCreator.sendMessage(ActionMessage.ATTACKED,
+                childUIDToChild.get(ChildEntity.mobIdToChildId.get(villager.getUniqueId())),
+                player);
     }
 }

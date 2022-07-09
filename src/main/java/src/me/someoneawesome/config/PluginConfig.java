@@ -16,7 +16,7 @@ public class PluginConfig {
     private static final String PLUGIN_CONFIG_FILE = "pluginConfig.yml";
     public static PluginConfig instance;
 
-    private final PluginLogger LOGGER = PluginLogger.getLogger(PluginConfig.class, "Plugin Property Handler");
+    private PluginLogger LOGGER = PluginLogger.getLogger(PluginConfig.class, "Plugin Property Handler");
 
     public PluginConfig() {
         instance = this;
@@ -34,7 +34,11 @@ public class PluginConfig {
                 .block();
     }
 
-    private void setupConfigVariables(FileConfiguration configObj) {
+    public PluginConfig(PluginLogger logger) {
+        this.LOGGER = logger;
+    }
+
+    public void setupConfigVariables(FileConfiguration configObj) {
         //configs
         configTypes = Flux.just("main", "players", "children")
                 .map(name -> {
@@ -43,7 +47,7 @@ public class PluginConfig {
                     return type;
                 })
                 .doOnNext(type -> type.filename = configObj.getString("config." + type.label + ".filename"))
-                .doOnNext(type -> type.filename = configObj.getString("config." + type.label + ".version"))
+                .doOnNext(type -> type.version = Byte.valueOf(configObj.getString("config." + type.label + ".version")))
                 .buffer()
                 .blockLast();
 
@@ -57,6 +61,9 @@ public class PluginConfig {
                         .map(HashSet::new)
                         .blockLast();
         speakingRadius = configObj.getInt("children.speakingRadius");
+        speakingRadius = configObj.getInt("children.despawnAllKeyword");
+        boyNames = configObj.getStringList("children.boyNames");
+        girlNames = configObj.getStringList("children.girlNames");
     }
 
     private List<ConfigType> configTypes;
@@ -64,6 +71,9 @@ public class PluginConfig {
     private HashSet<Material> leggings;
     private HashSet<Material> boots;
     private int speakingRadius;
+    private String despawnAllKeyword;
+    private List<String> boyNames;
+    private List<String> girlNames;
 
     public List<ConfigType> configTypes() {
         return configTypes;
@@ -83,6 +93,18 @@ public class PluginConfig {
 
     public int getSpeakingRadius() {
         return speakingRadius;
+    }
+
+    public String getDespawnAllKeyword() {
+        return despawnAllKeyword;
+    }
+
+    public List<String> getBoyNames() {
+        return boyNames;
+    }
+
+    public List<String> getGirlNames() {
+        return girlNames;
     }
 
     public class ConfigType {

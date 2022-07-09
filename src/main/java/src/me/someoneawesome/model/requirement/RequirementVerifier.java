@@ -1,4 +1,4 @@
-package src.me.someoneawesome.requirement;
+package src.me.someoneawesome.model.requirement;
 
 public class RequirementVerifier {
     private Requirement[] requirements;

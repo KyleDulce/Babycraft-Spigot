@@ -81,10 +81,9 @@ public class InventoryMenuBuilder {
         return this;
     }
 
-    public InventoryMenuBuilder setField(int slot, ItemStack itemStack, Consumer<String> onChange, String label, String menuTitle, String defaultValue) {
+    public InventoryMenuBuilder setField(int slot, ItemStack itemStack, Consumer<String> onChange, String menuTitle, String defaultValue) {
         MenuField menuField = new MenuField();
         menuField.callback = onChange;
-        menuField.label = label;
         menuField.value = defaultValue;
         menuField.itemStack = itemStack;
         menuField.menuTitle = menuTitle;

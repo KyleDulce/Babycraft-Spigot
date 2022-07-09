@@ -1,4 +1,4 @@
-package src.me.someoneawesome.requirement;
+package src.me.someoneawesome.model.requirement;
 
 public interface Requirement {
     boolean isFulfilled();

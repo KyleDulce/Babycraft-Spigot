@@ -23,6 +23,7 @@ public class CommandBabycraft extends BabycraftParentCommand {
         //general
         commands.add(new CommandAccept());
         commands.add(new CommandDeny());
+        commands.add(new CommandCancel());
         commands.add(new CommandList());
     }
 

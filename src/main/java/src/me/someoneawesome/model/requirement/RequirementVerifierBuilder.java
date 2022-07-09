@@ -1,10 +1,10 @@
-package src.me.someoneawesome.requirement;
+package src.me.someoneawesome.model.requirement;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import src.me.someoneawesome.config.ConfigInterface;
 import src.me.someoneawesome.model.Gender;
-import src.me.someoneawesome.permissions.BcPermission;
+import src.me.someoneawesome.model.permissions.BcPermission;
 
 import java.util.LinkedList;
 

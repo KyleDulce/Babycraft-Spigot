@@ -19,6 +19,11 @@ public class BasicMessageBuilder {
         return this;
     }
 
+    public BasicMessageBuilder addLine(String message, ChatColor chatColor) {
+        lines.add(chatColor + message);
+        return this;
+    }
+
     public BasicMessageBuilder addLine(String message) {
         return addLine(message, '&');
     }

@@ -1,14 +1,27 @@
 package src.me.someoneawesome.commands.babycraft;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import src.me.someoneawesome.commands.BabycraftCommand;
+import src.me.someoneawesome.model.requests.BcRequest;
 
 import java.util.List;
 
 public class CommandAccept implements BabycraftCommand {
     @Override
     public void onCommand(CommandSender sender, String[] commandArguments) {
-        //TODO implement
+        if(!(sender instanceof Player)) {
+            sender.sendMessage(ChatColor.RED + "Only players can execute this command");
+            return;
+        }
+
+        Player player = (Player) sender;
+        boolean result = BcRequest.acceptRequest(player.getUniqueId());
+
+        if(!result) {
+            sender.sendMessage(ChatColor.RED + "You have no active requests you can accept");
+        }
     }
 
     @Override

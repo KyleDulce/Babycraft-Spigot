@@ -1,4 +1,4 @@
-package src.me.someoneawesome.model.child;
+package src.me.someoneawesome.model.requests.child;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
