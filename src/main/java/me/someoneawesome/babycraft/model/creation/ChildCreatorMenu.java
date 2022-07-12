@@ -1,5 +1,6 @@
 package me.someoneawesome.babycraft.model.creation;
 
+import me.someoneawesome.babycraft.config.interfaces.PlayersConfigInterface;
 import me.someoneawesome.babycraft.model.inventorymenu.InventoryMenu;
 import me.someoneawesome.babycraft.model.inventorymenu.InventoryMenuBuilder;
 import me.someoneawesome.babycraft.model.messaging.FormattedMessage;
@@ -199,12 +200,21 @@ public class ChildCreatorMenu {
         }
         menu.childName = originalName;
         int num = 0;
-        while(ConfigInterface.instance.players.doesPlayerHaveChildWithName(menu.parent1, menu.childName) ||
-                ConfigInterface.instance.players.doesPlayerHaveChildWithName(menu.parent2, menu.childName)) {
+        while(playersHaveChildrenWithName(menu.parent1, menu.parent2, menu.childName)) {
             menu.childName = originalName + "_" + (++num);
         }
 
         menu.defaultLocation = initiator.getLocation();
         menu.openMenu();
+    }
+
+    private static boolean playersHaveChildrenWithName(UUID p1, UUID p2, String name) {
+        PlayersConfigInterface config = ConfigInterface.instance.players;
+        boolean p1HasChildWithName = config.doesPlayerHaveChildWithName(p1, name);
+        if(p2 != null) {
+            return p1HasChildWithName || config.doesPlayerHaveChildWithName(p2, name);
+        } else {
+            return p1HasChildWithName;
+        }
     }
 }

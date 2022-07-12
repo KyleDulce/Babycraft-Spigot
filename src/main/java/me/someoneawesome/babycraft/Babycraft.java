@@ -4,6 +4,10 @@ import me.someoneawesome.babycraft.commands.CommandManager;
 import me.someoneawesome.babycraft.config.ConfigInterface;
 import me.someoneawesome.babycraft.config.ConfigManager;
 import me.someoneawesome.babycraft.config.PluginConfig;
+import me.someoneawesome.babycraft.event.listeners.EntityListener;
+import me.someoneawesome.babycraft.event.listeners.InventoryListener;
+import me.someoneawesome.babycraft.event.listeners.PlayerListener;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Babycraft extends JavaPlugin {
@@ -43,11 +47,16 @@ public class Babycraft extends JavaPlugin {
         }
         configManager.loadConfigs();
         debugMode = ConfigInterface.instance.main.getDebugLogs();
+        PluginManager pluginManager = getServer().getPluginManager();
 
         getCommand("babycraft").setExecutor(commandManager);
         getCommand("babycraft").setTabCompleter(commandManager);
         getCommand("bcadmin").setExecutor(commandManager);
         getCommand("bcadmin").setTabCompleter(commandManager);
+
+        pluginManager.registerEvents(new EntityListener(), this);
+        pluginManager.registerEvents(new InventoryListener(), this);
+        pluginManager.registerEvents(new PlayerListener(), this);
 
         LOGGER.info("Babycraft Enabled");
     }

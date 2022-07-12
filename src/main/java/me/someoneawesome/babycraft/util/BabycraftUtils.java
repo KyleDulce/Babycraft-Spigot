@@ -32,10 +32,10 @@ public class BabycraftUtils {
         if(array.length == 0) {
             return null;
         }
+        Class<?> classType = array[0].getClass();
         LinkedList<T> list = new LinkedList<>(Arrays.asList(array));
         list.removeFirst();
-        T[] resultArray = (T[]) java.lang.reflect.Array.newInstance(list.get(0)
-                .getClass(), list.size());
+        T[] resultArray = (T[]) java.lang.reflect.Array.newInstance(classType, list.size());
         return list.toArray(resultArray);
     }
 

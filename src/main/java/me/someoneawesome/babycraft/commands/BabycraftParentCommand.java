@@ -12,10 +12,12 @@ public abstract class BabycraftParentCommand implements BabycraftCommand {
     @Override
     public void onCommand(CommandSender sender, String[] commandArguments) {
         //attempt to execute command
-        for(BabycraftCommand command : getSubCommands()) {
-            if(command.isCommand(commandArguments[0])) {
-                command.onCommand(sender, BabycraftUtils.removeFirstItemFromArray(commandArguments));
-                return;
+        if(commandArguments.length > 0) {
+            for(BabycraftCommand command : getSubCommands()) {
+                if(command.isCommand(commandArguments[0])) {
+                    command.onCommand(sender, BabycraftUtils.removeFirstItemFromArray(commandArguments));
+                    return;
+                }
             }
         }
 
@@ -41,9 +43,11 @@ public abstract class BabycraftParentCommand implements BabycraftCommand {
     public List<String> onTabComplete(CommandSender sender, String[] commandArguments) {
         Set<BabycraftCommand> subCommands = getSubCommands();
         //check for full completion of current Command
-        for(BabycraftCommand command : subCommands) {
-            if(command.isCommand(commandArguments[0])) {
-                return command.onTabComplete(sender, BabycraftUtils.removeFirstItemFromArray(commandArguments));
+        if(commandArguments.length > 1) {
+            for(BabycraftCommand command : subCommands) {
+                if(command.isCommand(commandArguments[0])) {
+                    return command.onTabComplete(sender, BabycraftUtils.removeFirstItemFromArray(commandArguments));
+                }
             }
         }
 

@@ -8,10 +8,7 @@ import me.someoneawesome.babycraft.config.ConfigInterface;
 import me.someoneawesome.babycraft.model.Gender;
 import me.someoneawesome.babycraft.model.messaging.BasicMessageBuilder;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class CommandList implements BabycraftCommand {
     @Override
@@ -49,7 +46,7 @@ public class CommandList implements BabycraftCommand {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, String[] commandArguments) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

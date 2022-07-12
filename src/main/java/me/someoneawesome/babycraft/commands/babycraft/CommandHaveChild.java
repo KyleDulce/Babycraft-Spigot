@@ -13,6 +13,7 @@ import me.someoneawesome.babycraft.model.requirement.RequirementCheck;
 import me.someoneawesome.babycraft.model.requirement.RequirementVerifierBuilder;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class CommandHaveChild implements BabycraftCommand {
     public List<String> onTabComplete(CommandSender sender, String[] commandArguments) {
         if(!(sender instanceof Player)) {
             sender.sendMessage(ChatColor.RED + "Only players can execute this command");
-            return null;
+            return Collections.emptyList();
         }
         Player player = (Player) sender;
 
@@ -86,7 +87,7 @@ public class CommandHaveChild implements BabycraftCommand {
             results.sort(new AlphabeticalComparator());
             return results;
         }
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

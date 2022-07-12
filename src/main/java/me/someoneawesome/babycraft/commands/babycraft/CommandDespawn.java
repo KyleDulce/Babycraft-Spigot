@@ -60,7 +60,7 @@ public class CommandDespawn implements BabycraftCommand {
     public List<String> onTabComplete(CommandSender sender, String[] commandArguments) {
         if(!(sender instanceof Player)) {
             sender.sendMessage(ChatColor.RED + "Only players can execute this command");
-            return null;
+            return Collections.emptyList();
         }
         Player player = (Player) sender;
 
@@ -82,7 +82,7 @@ public class CommandDespawn implements BabycraftCommand {
             results.sort(new AlphabeticalComparator());
             return results;
         }
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

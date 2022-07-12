@@ -22,7 +22,7 @@ import me.someoneawesome.babycraft.model.Gender;
 import java.util.*;
 
 public class Child {
-    private static HashMap<UUID, Child> childUIDToChild;
+    private static HashMap<UUID, Child> childUIDToChild = new HashMap<>();
     private static PluginLogger LOGGER = PluginLogger.getLogger(Child.class);
 
     public static Optional<Child> getChildFromUID(UUID uuid) {

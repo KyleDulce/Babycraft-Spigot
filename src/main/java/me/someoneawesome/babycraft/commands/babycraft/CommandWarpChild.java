@@ -61,7 +61,7 @@ public class CommandWarpChild implements BabycraftCommand {
     public List<String> onTabComplete(CommandSender sender, String[] commandArguments) {
         if(!(sender instanceof Player)) {
             sender.sendMessage(ChatColor.RED + "Only players can execute this command");
-            return null;
+            return Collections.emptyList();
         }
         Player player = (Player) sender;
 
@@ -70,7 +70,7 @@ public class CommandWarpChild implements BabycraftCommand {
 
             List<UUID> children = config.players.getPlayerChildren(player.getUniqueId());
             if(children.size() <= 0) {
-                return null;
+                return Collections.emptyList();
             }
 
             List<String> result = new LinkedList<>();
@@ -87,7 +87,7 @@ public class CommandWarpChild implements BabycraftCommand {
             result.sort(new AlphabeticalComparator());
             return result;
         }
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

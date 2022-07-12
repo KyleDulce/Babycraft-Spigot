@@ -11,6 +11,7 @@ import me.someoneawesome.babycraft.model.permissions.BcPermission;
 import me.someoneawesome.babycraft.model.requirement.RequirementCheck;
 import me.someoneawesome.babycraft.model.requirement.RequirementVerifierBuilder;
 
+import java.util.Collections;
 import java.util.List;
 
 public class CommandSaveConfig implements BabycraftCommand {
@@ -38,7 +39,7 @@ public class CommandSaveConfig implements BabycraftCommand {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, String[] commandArguments) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

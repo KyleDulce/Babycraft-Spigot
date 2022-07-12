@@ -7,6 +7,7 @@ import me.someoneawesome.babycraft.commands.BabycraftCommand;
 import me.someoneawesome.babycraft.config.ConfigInterface;
 import me.someoneawesome.babycraft.model.comparator.AlphabeticalComparator;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class CommandCallme implements BabycraftCommand {
             list.sort(new AlphabeticalComparator());
             return list;
         }
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

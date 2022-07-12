@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import me.someoneawesome.babycraft.commands.BabycraftCommand;
 import me.someoneawesome.babycraft.model.requests.BcRequest;
 
+import java.util.Collections;
 import java.util.List;
 
 public class CommandAccept implements BabycraftCommand {
@@ -26,7 +27,7 @@ public class CommandAccept implements BabycraftCommand {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, String[] commandArguments) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

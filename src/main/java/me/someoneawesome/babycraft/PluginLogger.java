@@ -45,9 +45,9 @@ public class PluginLogger {
 
     private String formMessage(ChatColor color, String message) {
         if(label == null) {
-            return String.format("%s[%s] %s", color, logOrigin.toString(), message);
+            return String.format("%s[%s] %s", color, logOrigin.getSimpleName(), message);
         } else {
-            return String.format("%s[%s/%s] %s", color, label, logOrigin.toString(), message);
+            return String.format("%s[%s/%s] %s", color, label, logOrigin.getSimpleName(), message);
         }
     }
 

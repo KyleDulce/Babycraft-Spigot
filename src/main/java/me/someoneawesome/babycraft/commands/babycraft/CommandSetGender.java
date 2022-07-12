@@ -11,6 +11,7 @@ import me.someoneawesome.babycraft.model.Gender;
 import me.someoneawesome.babycraft.model.comparator.AlphabeticalComparator;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class CommandSetGender implements BabycraftCommand {
     public List<String> onTabComplete(CommandSender sender, String[] commandArguments) {
         if(!(sender instanceof Player)) {
             sender.sendMessage(ChatColor.RED + "Only players can execute this command");
-            return null;
+            return Collections.emptyList();
         }
 
         if(commandArguments.length == 1) {
@@ -66,7 +67,7 @@ public class CommandSetGender implements BabycraftCommand {
             result.sort(new AlphabeticalComparator());
             return result;
         }
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
