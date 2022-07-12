@@ -114,19 +114,4 @@ public class RequirementVerifierBuilder {
         });
         return this;
     }
-
-    public RequirementVerifierBuilder isPlayerOnline(Player player, String failMessage) {
-        requirements.add(new Requirement() {
-            @Override
-            public boolean isFulfilled() {
-                return player.isOnline();
-            }
-
-            @Override
-            public String onFailMessage() {
-                return failMessage;
-            }
-        });
-        return this;
-    }
 }

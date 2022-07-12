@@ -10,7 +10,7 @@ public class CommandBabycraft extends BabycraftParentCommand {
 
     private final HashSet<BabycraftCommand> commands;
 
-    private CommandBabycraft() {
+    public CommandBabycraft() {
         commands = new HashSet<>();
         //true subcommands
         commands.add(new CommandHaveChild());

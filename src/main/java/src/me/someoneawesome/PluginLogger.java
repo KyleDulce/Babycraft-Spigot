@@ -23,24 +23,32 @@ public class PluginLogger {
 
     public void debug(String message) {
         if(Babycraft.instance.debugMode) {
-            Babycraft.instance.getLogger().log(Level.INFO, ChatColor.DARK_AQUA + message);
+            Babycraft.instance.getLogger().log(Level.INFO, formMessage(ChatColor.DARK_AQUA, message));
         }
     }
 
     public void info(String message) {
-        Babycraft.instance.getLogger().log(Level.INFO, ChatColor.GREEN + message);
+        Babycraft.instance.getLogger().log(Level.INFO, formMessage(ChatColor.GREEN, message));
     }
 
     public void warn(String message) {
-        Babycraft.instance.getLogger().log(Level.WARNING, ChatColor.YELLOW + message);
+        Babycraft.instance.getLogger().log(Level.WARNING, formMessage(ChatColor.YELLOW, message));
     }
 
     public void error(String message) {
-        Babycraft.instance.getLogger().log(Level.WARNING, ChatColor.RED + message);
+        Babycraft.instance.getLogger().log(Level.WARNING, formMessage(ChatColor.RED, message));
     }
 
     public void error(String message, Throwable throwable) {
-        Babycraft.instance.getLogger().log(Level.WARNING, ChatColor.RED + message, throwable);
+        Babycraft.instance.getLogger().log(Level.WARNING, formMessage(ChatColor.RED, message), throwable);
+    }
+
+    private String formMessage(ChatColor color, String message) {
+        if(label == null) {
+            return String.format("%s[%s] %s", color, logOrigin.toString(), message);
+        } else {
+            return String.format("%s[%s/%s] %s", color, label, logOrigin.toString(), message);
+        }
     }
 
     public static PluginLogger getLogger(Class<?> loggerOrigin, String label) {

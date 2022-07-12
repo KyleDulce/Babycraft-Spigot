@@ -12,7 +12,7 @@ public class RequirementCheck {
     }
 
     public String getMessage() {
-        if(success)
+        if(!success)
             return message;
         else
             throw new NoSuchElementException("There is no element in this check");

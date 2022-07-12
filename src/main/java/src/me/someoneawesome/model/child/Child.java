@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import reactor.core.publisher.Flux;
+import src.me.someoneawesome.PluginLogger;
 import src.me.someoneawesome.config.ConfigInterface;
 import src.me.someoneawesome.config.PluginConfig;
 import src.me.someoneawesome.config.interfaces.ChildrenConfigInterface;
@@ -22,6 +23,7 @@ import java.util.*;
 
 public class Child {
     private static HashMap<UUID, Child> childUIDToChild;
+    private static PluginLogger LOGGER = PluginLogger.getLogger(Child.class);
 
     public static Optional<Child> getChildFromUID(UUID uuid) {
         if(childUIDToChild.containsKey(uuid)) {
@@ -105,8 +107,12 @@ public class Child {
                         .build()
                 ).build()
                 .broadcastMessage();
-        Flux.fromIterable(childUIDToChild.values())
+        Flux.just(childUIDToChild)
+                .doOnNext(collection -> LOGGER.info("Despawning All Children"))
+                .flatMap(children -> Flux.fromIterable(children.values()))
                 .doOnNext(child -> child.childEntity.despawn())
+                .buffer()
+                .doOnNext(children -> LOGGER.info("Despawned All Children"))
                 .subscribe();
     }
 

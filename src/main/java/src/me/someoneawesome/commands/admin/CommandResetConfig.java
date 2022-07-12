@@ -3,7 +3,10 @@ package src.me.someoneawesome.commands.admin;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import src.me.someoneawesome.PluginLogger;
 import src.me.someoneawesome.commands.BabycraftCommand;
+import src.me.someoneawesome.commands.CommandManager;
+import src.me.someoneawesome.commands.babycraft.CommandWarpChild;
 import src.me.someoneawesome.config.ConfigManager;
 import src.me.someoneawesome.model.child.Child;
 import src.me.someoneawesome.model.permissions.BcPermission;
@@ -13,6 +16,9 @@ import src.me.someoneawesome.model.requirement.RequirementVerifierBuilder;
 import java.util.List;
 
 public class CommandResetConfig implements BabycraftCommand {
+    private PluginLogger LOGGER = PluginLogger.getLogger(CommandResetConfig.class,
+            CommandManager.COMMAND_MANAGER_LOGGER_LABEL);
+
     @Override
     public void onCommand(CommandSender sender, String[] commandArguments) {
         if(sender instanceof Player){
@@ -32,9 +38,12 @@ public class CommandResetConfig implements BabycraftCommand {
             return;
         }
 
+        LOGGER.info("Resetting plugin configuration");
+        LOGGER.info("Despawning all children");
         Child.despawnAll();
         ConfigManager.instance.resetConfigs().block();
         sender.sendMessage(ChatColor.GREEN + "Config Reset and loaded!");
+        LOGGER.info("Plugin configuration Reset Complete");
     }
 
     @Override

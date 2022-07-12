@@ -3,6 +3,8 @@ package src.me.someoneawesome.commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import src.me.someoneawesome.commands.admin.CommandAdmin;
+import src.me.someoneawesome.commands.babycraft.CommandBabycraft;
 
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +17,8 @@ public class CommandManager extends BabycraftParentCommand implements TabExecuto
 
     public CommandManager() {
         subCommands = new HashSet<>();
+        subCommands.add(new CommandBabycraft());
+        subCommands.add(new CommandAdmin());
     }
 
     //Tab Executor methods

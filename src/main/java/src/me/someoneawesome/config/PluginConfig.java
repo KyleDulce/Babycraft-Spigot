@@ -61,7 +61,7 @@ public class PluginConfig {
                         .map(HashSet::new)
                         .blockLast();
         speakingRadius = configObj.getInt("children.speakingRadius");
-        speakingRadius = configObj.getInt("children.despawnAllKeyword");
+        despawnAllKeyword = configObj.getString("children.despawnAllKeyword");
         boyNames = configObj.getStringList("children.boyNames");
         girlNames = configObj.getStringList("children.girlNames");
     }
