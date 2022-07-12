@@ -23,6 +23,7 @@ public class ConfigObject {
     private FileConfiguration fileConfig;
     private File file;
     private final PluginConfig.ConfigType configProps;
+    private boolean isDirty = false;
 
     private ConfigObject(PluginConfig.ConfigType configProps) {
         this.configProps = configProps;
@@ -182,8 +183,25 @@ public class ConfigObject {
         };
     }
 
+    public void setDirty() {
+        isDirty = true;
+    }
+
+    public void clearDirty() {
+        isDirty = false;
+    }
+
+    public boolean isDirty() {
+        return isDirty;
+    }
+
     public void set(String path, Object obj) {
         fileConfig.set(path, obj);
+        if(ConfigInterface.instance.main.getConfigSavePeriod() <= 0) {
+            save();
+        } else {
+            setDirty();
+        }
     }
 
     public int getInt(String path, int def) {

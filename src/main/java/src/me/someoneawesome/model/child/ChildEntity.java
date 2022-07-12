@@ -1,4 +1,4 @@
-package src.me.someoneawesome.model.requests.child;
+package src.me.someoneawesome.model.child;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -203,6 +203,9 @@ public class ChildEntity {
 
     public ItemStack[] getArmor() {
         return armor;
+    }
+    public UUID getMobID() {
+        return mobID;
     }
 
     private void refreshMob() {

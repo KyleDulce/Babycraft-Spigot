@@ -1,14 +1,33 @@
 package src.me.someoneawesome.commands.admin;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import src.me.someoneawesome.commands.BabycraftCommand;
+import src.me.someoneawesome.model.child.Child;
+import src.me.someoneawesome.model.permissions.BcPermission;
+import src.me.someoneawesome.model.requirement.RequirementCheck;
+import src.me.someoneawesome.model.requirement.RequirementVerifierBuilder;
 
 import java.util.List;
 
 public class CommandDespawnAll implements BabycraftCommand {
     @Override
     public void onCommand(CommandSender sender, String[] commandArguments) {
-        //TODO implement
+        if(sender instanceof Player){
+            Player player = (Player) sender;
+            RequirementCheck requirementCheck = RequirementVerifierBuilder.builder()
+                    .playerHasPermission(player, BcPermission.ADMIN_DESPAWN_ALL,
+                            "You do not have permission to despawn all babies")
+                    .build().doesMeetRequirements();
+
+            if(!requirementCheck.isSuccess()) {
+                sender.sendMessage(ChatColor.RED + requirementCheck.getMessage());
+                return;
+            }
+        }
+        Child.despawnAll();
+        sender.sendMessage(ChatColor.GREEN + "All despawned!");
     }
 
     @Override

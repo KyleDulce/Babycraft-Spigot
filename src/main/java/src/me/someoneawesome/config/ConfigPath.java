@@ -13,6 +13,8 @@ public class ConfigPath {
     public static final String MAIN_ALLOW_SAME_GENDER_MARRIAGE = "allow-same-gender-marriage";
     public static final String MAIN_BROADCAST_MARRIAGE = "broadcast-marriage-annoucements";
     public static final String MAIN_REQUEST_TIMEOUT = "request-timeout-delay";
+    public static final String MAIN_HAVECHILD_MAX_DISTANCE = "haveChild-max-distance";
+    public static final String MAIN_SAVE_PERIOD = "save-period";
     public static final String MAIN_DEBUG_LOGS = "debug-logs";
     public static final String MAIN_DEFAULT_CALLME_MALE = "defaults.callmes.male";
     public static final String MAIN_DEFAULT_CALLME_FEMALE = "defaults.callmes.female";

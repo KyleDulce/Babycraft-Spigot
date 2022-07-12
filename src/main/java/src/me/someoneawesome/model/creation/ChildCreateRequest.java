@@ -25,4 +25,8 @@ public class ChildCreateRequest extends BcRequest {
     public void commit() {
         ChildCreatorMenu.startCreator(Bukkit.getPlayer(requester), receiver);
     }
+
+    public static void createAndSendRequest(UUID p1, UUID p2) {
+        new ChildCreateRequest(p1, p2).sendRequest();
+    }
 }

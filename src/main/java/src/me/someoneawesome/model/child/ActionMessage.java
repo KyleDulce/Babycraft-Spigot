@@ -1,4 +1,4 @@
-package src.me.someoneawesome.model.requests.child;
+package src.me.someoneawesome.model.child;
 
 import java.util.Random;
 

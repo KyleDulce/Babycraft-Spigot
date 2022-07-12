@@ -7,7 +7,7 @@ import src.me.someoneawesome.commands.BabycraftCommand;
 import src.me.someoneawesome.config.ConfigInterface;
 import src.me.someoneawesome.config.PluginConfig;
 import src.me.someoneawesome.model.comparator.AlphabeticalComparator;
-import src.me.someoneawesome.model.requests.child.Child;
+import src.me.someoneawesome.model.child.Child;
 
 import java.util.*;
 
@@ -73,7 +73,10 @@ public class CommandDespawn implements BabycraftCommand {
 
             for(UUID childUid : childrenList) {
                 if(Child.getChildFromUID(childUid).isPresent()) {
-                    results.add(names.get(childUid));
+                    String name = names.get(childUid);
+                    if(name.toLowerCase().startsWith(commandArguments[commandArguments.length - 1].toLowerCase())) {
+                        results.add(name);
+                    }
                 }
             }
             results.sort(new AlphabeticalComparator());

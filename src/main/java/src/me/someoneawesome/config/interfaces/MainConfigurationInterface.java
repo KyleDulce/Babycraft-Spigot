@@ -51,4 +51,12 @@ public class MainConfigurationInterface {
     public String getNoneCallme() {
         return manager.getConfigObject(label).getString(ConfigPath.MAIN_DEFAULT_CALLME_NONE, Gender.NULL.getParentCallme());
     }
+
+    public double haveChildMaxDistance() {
+        return manager.getConfigObject(label).getDouble(ConfigPath.MAIN_HAVECHILD_MAX_DISTANCE, 10D);
+    }
+
+    public double getConfigSavePeriod() {
+        return manager.getConfigObject(label).getDouble(ConfigPath.MAIN_HAVECHILD_MAX_DISTANCE, -1D);
+    }
 }

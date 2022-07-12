@@ -11,6 +11,7 @@ import java.util.Set;
 public class CommandManager extends BabycraftParentCommand implements TabExecutor {
 
     private final Set<BabycraftCommand> subCommands;
+    public static final String COMMAND_MANAGER_LOGGER_LABEL = "Command Manager";
 
     public CommandManager() {
         subCommands = new HashSet<>();

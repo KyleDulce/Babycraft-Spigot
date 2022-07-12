@@ -1,5 +1,5 @@
 #DO NOT CHANGE config-version
-config-version: error
+config-version: 1
 allow-multiplayer-marriage: true
 #choose-baby-gender if enabled allows players to choose the gender of their baby
 choose-baby-gender: false
@@ -7,6 +7,11 @@ allow-same-gender-marriage: true
 #Request-timeout-delay is time in seconds for how long it takes until any request will automatically
 #Be denied if ignored default: 1 min / 60 seconds
 request-timeout-delay: 60
+#Max distance players can be to have a child together
+haveChild-max-distance: 10
+#How often should the data in memory be saved to config in seconds. Set to -1 to write
+#everytime data os updated. Save will not occur if there is nothing to save
+save-period: -1
 
 defaults:
   callmes:

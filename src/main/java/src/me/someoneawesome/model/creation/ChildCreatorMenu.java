@@ -8,7 +8,7 @@ import src.me.someoneawesome.PluginLogger;
 import src.me.someoneawesome.config.ConfigInterface;
 import src.me.someoneawesome.config.PluginConfig;
 import src.me.someoneawesome.model.Gender;
-import src.me.someoneawesome.model.requests.child.Child;
+import src.me.someoneawesome.model.child.Child;
 import src.me.someoneawesome.model.inventorymenu.InventoryMenu;
 import src.me.someoneawesome.model.inventorymenu.InventoryMenuBuilder;
 import src.me.someoneawesome.model.messaging.FormattedMessage;

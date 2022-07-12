@@ -90,6 +90,31 @@ public class RequirementVerifierBuilder {
         return this;
     }
 
+    public RequirementVerifierBuilder haveChildSameGenderCheck(Player player, Player other, String failMessage) {
+        requirements.add(new Requirement() {
+            @Override
+            public boolean isFulfilled() {
+                if(player.hasPermission(BcPermission.BABYCRAFT_SAME_GENDER.toString()) &&
+                other.hasPermission(BcPermission.BABYCRAFT_SAME_GENDER.toString())) {
+                    return true;
+                } else {
+                    Gender playerGender = ConfigInterface.instance.players.getPlayerGender(player.getUniqueId());
+                    Gender otherGender = ConfigInterface.instance.players.getPlayerGender(other.getUniqueId());
+                    if(Gender.areEqualGenders(playerGender, otherGender)) {
+                        return false;
+                    }
+                    return true;
+                }
+            }
+
+            @Override
+            public String onFailMessage() {
+                return failMessage;
+            }
+        });
+        return this;
+    }
+
     public RequirementVerifierBuilder isPlayerOnline(Player player, String failMessage) {
         requirements.add(new Requirement() {
             @Override

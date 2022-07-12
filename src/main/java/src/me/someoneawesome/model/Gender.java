@@ -87,6 +87,18 @@ public enum Gender {
         }
     }
 
+    public static boolean areEqualGenders(Gender g1, Gender g2) {
+        if(g1 == NULL || g2 == NULL) {
+            throw new IllegalArgumentException("Cannot compare Null Gender to another gender!");
+        } else if((g1 == MALE && g2 == FEMALE) || (g1 == FEMALE && g2 == MALE)) {
+            return false;
+        } else if(g1 == OTHER || g2 == OTHER) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public static Gender fromString(String s) {
         if(s.equalsIgnoreCase(MALE.toString())) {
             return MALE;

@@ -17,7 +17,6 @@ public class CommandAdmin extends BabycraftParentCommand {
         commands.add(new CommandResetConfig());
         commands.add(new CommandSaveConfig());
         commands.add(new CommandDespawnAll());
-        commands.add(new CommandSettings());
     }
 
     @Override

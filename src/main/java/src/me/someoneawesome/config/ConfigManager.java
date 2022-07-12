@@ -1,7 +1,9 @@
 package src.me.someoneawesome.config;
 
+import org.bukkit.Bukkit;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import src.me.someoneawesome.Babycraft;
 import src.me.someoneawesome.PluginLogger;
 
 import java.util.HashMap;
@@ -12,6 +14,8 @@ public class ConfigManager {
     public static ConfigManager instance;
 
     private final HashMap<String, ConfigObject> configObjects = new HashMap<>();
+
+    private int saveTaskId = -1;
 
     public ConfigManager() {
         instance = this;
@@ -35,7 +39,32 @@ public class ConfigManager {
                     } else {
                         LOGGER.info("Using config " + configObject.getConfigProps().filename + " version " + version);
                     }
-                }).blockLast();
+                })
+                .buffer()
+                .doOnNext(configs -> startRepeatingTask())
+                .blockLast();
+    }
+
+    private void stopRepeatingTask() {
+        if(saveTaskId >= 0) {
+            LOGGER.info("Stopping save task");
+            Bukkit.getScheduler().cancelTask(saveTaskId);
+            saveTaskId = -1;
+        }
+    }
+
+    private void startRepeatingTask() {
+        LOGGER.info("Starting save task");
+        double savePeriod = ConfigInterface.instance.main.getConfigSavePeriod();
+        if(savePeriod > 0) {
+            long savePeriodLong = ((long) savePeriod) * 20L;
+            saveTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Babycraft.instance, () -> scheduledConfigSave().block(),
+                    savePeriodLong, savePeriodLong);
+            if(saveTaskId <= -1) {
+                LOGGER.warn("Save period scheduling failed, saving on every write");
+                //TODO SAVE ON EACH RIGHT CHANGE
+            }
+        }
     }
 
     public Mono<Void> saveConfigs() {
@@ -45,8 +74,27 @@ public class ConfigManager {
     }
 
     public Mono<Void> reloadConfigs() {
-        return Flux.fromIterable(configObjects.values())
+        return Mono.just(configObjects)
+                .doOnNext(obj -> stopRepeatingTask())
+                .flatMapIterable(HashMap::values)
                 .doOnNext(ConfigObject::reloadConfiguration)
+                .buffer()
+                .doOnNext(configs -> startRepeatingTask())
+                .then();
+    }
+
+    public Mono<Void> scheduledConfigSave() {
+        return Flux.fromIterable(configObjects.values())
+                .doOnNext(config -> LOGGER.info("Running scheduled save of config files that received changes"))
+                .filter(ConfigObject::isDirty)
+                .doOnNext(ConfigObject::save)
+                .doOnNext(ConfigObject::clearDirty)
+                .then();
+    }
+
+    public Mono<Void> resetConfigs() {
+        return Flux.fromIterable(configObjects.values())
+                .doOnNext(ConfigObject::resetConfigToDefault)
                 .then();
     }
 
