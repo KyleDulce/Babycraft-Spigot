@@ -56,13 +56,15 @@ public class ConfigManager {
     private void startRepeatingTask() {
         LOGGER.info("Starting save task");
         double savePeriod = ConfigInterface.instance.main.getConfigSavePeriod();
-        if(savePeriod > 0) {
+        if(savePeriod > 0D) {
             long savePeriodLong = ((long) savePeriod) * 20L;
+            LOGGER.info("Saving config every " + savePeriodLong + " server ticks");
             saveTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Babycraft.instance, () -> scheduledConfigSave().block(),
                     savePeriodLong, savePeriodLong);
             if(saveTaskId <= -1) {
                 LOGGER.warn("Save period scheduling failed, saving on every write");
-                //TODO SAVE ON EACH RIGHT CHANGE
+                ConfigInterface.instance.main.setConfigSavePeriod(-1D);
+                saveConfigs().block();
             }
         }
     }

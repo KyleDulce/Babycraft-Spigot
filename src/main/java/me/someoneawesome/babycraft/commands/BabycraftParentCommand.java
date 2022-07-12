@@ -70,6 +70,6 @@ public abstract class BabycraftParentCommand implements BabycraftCommand {
         for(BabycraftCommand commands : getSubCommands()) {
             usages.addAll(Arrays.asList(commands.getUsage()));
         }
-        return (String[]) usages.toArray();
+        return usages.toArray(new String[usages.size()]);
     }
 }

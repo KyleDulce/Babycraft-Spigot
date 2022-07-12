@@ -59,4 +59,8 @@ public class MainConfigurationInterface {
     public double getConfigSavePeriod() {
         return manager.getConfigObject(label).getDouble(ConfigPath.MAIN_HAVECHILD_MAX_DISTANCE, -1D);
     }
+
+    public void setConfigSavePeriod(double value) {
+        manager.getConfigObject(label).set(ConfigPath.MAIN_HAVECHILD_MAX_DISTANCE, value);
+    }
 }
